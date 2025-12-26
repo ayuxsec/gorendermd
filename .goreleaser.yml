@@ -1,0 +1,43 @@
+version: 2
+project_name: gorendermd
+
+before:
+  hooks:
+    - go mod tidy
+
+builds:
+  - id: gorendermd
+    main: ./cmd/gorendermd
+    binary: gorendermd
+    ldflags:
+      - -X "github.com/ayuxsec/gorendermd/Version={{.Version}}"
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - windows
+      - darwin
+      - freebsd
+    goarch:
+      - amd64
+      - arm64
+
+checksum:
+  name_template: '{{ .ProjectName }}_checksums.txt'
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - '^docs:'
+      - '^test:'
+
+archives:
+  -
+    formats: [ binary ]
+    name_template: "{{ .Binary}}.{{ .Os }}.{{ .Arch }}"
+
+release:
+  github:
+    owner: ayuxsec
+    name: gorendermd
