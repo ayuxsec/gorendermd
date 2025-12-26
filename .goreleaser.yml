@@ -7,7 +7,7 @@ before:
 
 builds:
   - id: gorendermd
-    main: ./cmd/gorendermd
+    main: .
     binary: gorendermd
     ldflags:
       - -X "github.com/ayuxsec/gorendermd/Version={{.Version}}"
