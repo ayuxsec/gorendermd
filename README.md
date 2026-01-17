@@ -1,13 +1,9 @@
-<h1 align="center">Welcome to gorendermd 👋</h1>
-<p>
-  <a href="#" target="_blank">
-    <img alt="License: The Unlicense" src="https://img.shields.io/badge/License-The Unlicense-yellow.svg" />
-  </a>
+<h1 align="center">gorendermd</h1>
+<p align="center">Render Markdown in a browser via a local HTTP server</p>
+<p align="center">
+  <img src="https://img.shields.io/github/go-mod/go-version/ayuxsec/gorendermd?style=flat-square">
+  <img src="https://img.shields.io/github/license/ayuxsec/gorendermd?style=flat-square">
 </p>
-
-> Render Markdown in a browser via a local HTTP server
-
-![preview](.github/images/out.gif)
 
 ## Install
 
@@ -22,6 +18,8 @@ otherwise [download a release for your platform](https://github.com/ayuxsec/gore
 ```sh
 echo "# Hello World" | gorendermd
 ```
+
+![preview](.github/images/out.gif)
 
 ## Flags
 
