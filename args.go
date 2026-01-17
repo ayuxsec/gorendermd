@@ -9,8 +9,9 @@ import (
 	"strings"
 )
 
+var rawMD string
+
 var (
-	rawMD           string
 	showVersion     = flag.Bool("version", false, "print current version and exit")
 	port            = flag.Int("port", 0, "Port to listen on (0 = random)")
 	skipOpenBrowser = flag.Bool("skip-open-browser", false, "Skip Auto Open the URL in a Browser")

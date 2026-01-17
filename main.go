@@ -5,7 +5,10 @@ import (
 	"log"
 	"net"
 	"net/http"
+	"os"
+	"os/signal"
 	"strconv"
+	"syscall"
 )
 
 // PageData holds data to be passed to the HTML template
@@ -14,6 +17,7 @@ type PageData struct {
 }
 
 func main() {
+	log.SetOutput(os.Stderr)
 	if err := parseArgs(); err != nil {
 		log.Fatalf("failed to parse args: %v", err)
 	}
@@ -38,14 +42,20 @@ func main() {
 	tcpAddr := ln.Addr().(*net.TCPAddr)
 
 	listenerURL := "http://localhost:" + strconv.Itoa(tcpAddr.Port)
-	log.Printf("Listening on %s", listenerURL)
 
-	if *browser != "" {
-		if !*skipOpenBrowser {
-			if err := runCommand(*browser, []string{listenerURL}, *browserTimeout); err != nil {
-				log.Fatalf("failed to open browser: %v", err)
-			}
+	go func() {
+		log.Fatal(http.Serve(ln, nil))
+		log.Printf("Listening on %s", listenerURL)
+	}()
+
+	if *browser != "" && !*skipOpenBrowser {
+		if err := runCommand(*browser, []string{listenerURL}, *browserTimeout); err != nil {
+			log.Fatalf("failed to open browser: %v", err)
 		}
 	}
-	log.Fatal(http.Serve(ln, nil))
+
+	signalCh := make(chan os.Signal, 1)
+	signal.Notify(signalCh, os.Interrupt, syscall.SIGTERM)
+	log.Print("Press Ctrl+C to stop server.")
+	<-signalCh
 }
